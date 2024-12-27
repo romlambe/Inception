@@ -33,7 +33,8 @@ services:
       - inception
     depends_on:
       - wordpress
-    build: ./srcs/nginx
+    build:
+      context: ./srcs/nginx
     env_file:
       - .env
     restart: on-failure

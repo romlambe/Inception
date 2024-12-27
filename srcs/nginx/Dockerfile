@@ -4,17 +4,17 @@ RUN apt update && \
 	apt install -y nginx openssl
 
 RUN mkdir -p /etc/nginx/ssl
-RUN openssl req -x509 -nodes -days 365\
-	-newkey rsa:4096\
+RUN openssl req -newkey rsa:4096\
+	-x509 -sha256 -days 365 -nodes\
+	-out /etc/nginx/ssl/romlambe.crt\
 	-keyout /etc/nginx/ssl/romlambe.key\
-	-out /etc/nginx/ssl/romlambe.ctr\
 	-subj "/C=FR/ST=Paris/L=Paris/O=42PerpignanSchool/OU=student/CN=romlambe/"
 
 RUN mkdir -p /var/run/nginx
 
 COPY ./conf/nginx.conf /etc/nginx/nginx.conf
 
-RUN chmod 775 /var/www/html && \
+RUN chmod 755 /var/www/html && \
 	chown -R www-data:www-data /var/www/html
 
 EXPOSE 443

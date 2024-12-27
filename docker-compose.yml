@@ -1,18 +1,24 @@
 services:
   mariadb:
     container_name: mariadb
-    build: ./srcs/mariadb
+    build:
+      context: ./srcs/mariadb
+      dockerfile: Dockerfile
     volumes:
       - mariadb:/var/lib/mysql
     env_file:
       - .env
+    ports :
+      - "3306:3306"
     networks:
       - inception
     restart: always
 
   wordpress:
     container_name: wordpress
-    build: ./srcs/wordpress
+    build: 
+      context: ./srcs/wordpress
+      dockerfile: Dockerfile
     volumes:
       - wordpress:/var/www/wordpress
     env_file:
@@ -22,6 +28,8 @@ services:
     networks:
       - inception
     restart: always
+    expose : 
+      - "9000"
 
   nginx:
     container_name: nginx

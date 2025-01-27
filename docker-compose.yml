@@ -1,24 +1,19 @@
 services:
+
   mariadb:
     container_name: mariadb
-    build:
-      context: ./srcs/mariadb
-      dockerfile: Dockerfile
+    build: ./srcs/mariadb
     volumes:
       - mariadb:/var/lib/mysql
     env_file:
       - .env
-    ports :
-      - "3306:3306"
     networks:
       - inception
     restart: always
 
   wordpress:
     container_name: wordpress
-    build: 
-      context: ./srcs/wordpress
-      dockerfile: Dockerfile
+    build: ./srcs/wordpress
     volumes:
       - wordpress:/var/www/wordpress
     env_file:
@@ -28,8 +23,6 @@ services:
     networks:
       - inception
     restart: always
-    expose : 
-      - "9000"
 
   nginx:
     container_name: nginx
@@ -43,13 +36,8 @@ services:
       - wordpress
     build:
       context: ./srcs/nginx
-    env_file:
-      - .env
+    env_file: .env
     restart: on-failure
-
-networks:
-  inception:
-    driver: bridge
 
 volumes:
   wordpress:
@@ -57,11 +45,15 @@ volumes:
     driver_opts:
       type: "none"
       o: "bind"
-      device: "/home/${USER}/data/wordpress"
+      device: "/home/romlambe/data/wordpress"
 
   mariadb:
     driver: local
     driver_opts:
       type: "none"
       o: "bind"
-      device: "/home/${USER}/data/mariadb"
+      device: "/home/romlambe/data/mariadb"
+
+networks:
+  inception:
+    driver: bridge
